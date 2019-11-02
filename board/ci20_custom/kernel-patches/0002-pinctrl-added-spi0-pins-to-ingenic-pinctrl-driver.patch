@@ -1,0 +1,79 @@
+From 34094005d575d351350aa60d46ff4333fe592069 Mon Sep 17 00:00:00 2001
+From: Pavel Nadein <pasha-net@narod.ru>
+Date: Wed, 27 Nov 2019 20:34:09 +0100
+Subject: [PATCH 1/1] [pinctrl] added spi0 pins to ingenic pinctrl driver
+
+author: https://github.com/zear
+reference: https://github.com/zear/linux/tree/4.18-spi
+
+Tested with kernel 5.2.8
+
+Signed-off-by: Pavel Nadein <pasha-net@narod.ru>
+---
+ drivers/pinctrl/pinctrl-ingenic.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/pinctrl/pinctrl-ingenic.c b/drivers/pinctrl/pinctrl-ingenic.c
+index c8ef3b9..289ca75 100644
+--- a/drivers/pinctrl/pinctrl-ingenic.c
++++ b/drivers/pinctrl/pinctrl-ingenic.c
+@@ -346,6 +346,7 @@ static const u32 jz4770_pull_downs[6] = {
+ 	0x00000000, 0x000f0c03, 0x00000000, 0x0000b000, 0x00000483, 0x00580ff0,
+ };
+ 
++static int jz4770_spi0_pins[] = { 0x8e, 0x8f, 0x90, 0x91, 0x92, };
+ static int jz4770_uart0_data_pins[] = { 0xa0, 0xa3, };
+ static int jz4770_uart0_hwflow_pins[] = { 0xa1, 0xa2, };
+ static int jz4770_uart1_data_pins[] = { 0x7a, 0x7c, };
+@@ -414,7 +415,7 @@ static int jz4770_mac_rmii_pins[] = {
+ 	0xa9, 0xab, 0xaa, 0xac, 0xa5, 0xa4, 0xad, 0xae, 0xa6, 0xa8,
+ };
+ static int jz4770_mac_mii_pins[] = { 0xa7, 0xaf, };
+-
++static int jz4770_spi0_funcs[] = { 0, 0, 0, 0, 0 };
+ static int jz4770_uart0_data_funcs[] = { 0, 0, };
+ static int jz4770_uart0_hwflow_funcs[] = { 0, 0, };
+ static int jz4770_uart1_data_funcs[] = { 0, 0, };
+@@ -474,6 +475,7 @@ static int jz4770_mac_rmii_funcs[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, };
+ static int jz4770_mac_mii_funcs[] = { 0, 0, };
+ 
+ static const struct group_desc jz4770_groups[] = {
++	INGENIC_PIN_GROUP("spi0", jz4770_spi0),
+ 	INGENIC_PIN_GROUP("uart0-data", jz4770_uart0_data),
+ 	INGENIC_PIN_GROUP("uart0-hwflow", jz4770_uart0_hwflow),
+ 	INGENIC_PIN_GROUP("uart1-data", jz4770_uart1_data),
+@@ -529,6 +531,7 @@ static const struct group_desc jz4770_groups[] = {
+ 	INGENIC_PIN_GROUP("mac-mii", jz4770_mac_mii),
+ };
+ 
++static const char *jz4770_spi0_groups[] = { "spi0", };
+ static const char *jz4770_uart0_groups[] = { "uart0-data", "uart0-hwflow", };
+ static const char *jz4770_uart1_groups[] = { "uart1-data", "uart1-hwflow", };
+ static const char *jz4770_uart2_groups[] = { "uart2-data", "uart2-hwflow", };
+@@ -571,6 +574,7 @@ static const char *jz4770_pwm7_groups[] = { "pwm7", };
+ static const char *jz4770_mac_groups[] = { "mac-rmii", "mac-mii", };
+ 
+ static const struct function_desc jz4770_functions[] = {
++	{ "spi0", jz4770_spi0_groups, ARRAY_SIZE(jz4770_spi0_groups), },
+ 	{ "uart0", jz4770_uart0_groups, ARRAY_SIZE(jz4770_uart0_groups), },
+ 	{ "uart1", jz4770_uart1_groups, ARRAY_SIZE(jz4770_uart1_groups), },
+ 	{ "uart2", jz4770_uart2_groups, ARRAY_SIZE(jz4770_uart2_groups), },
+@@ -628,6 +632,7 @@ static int jz4780_i2c4_e_funcs[] = { 1, 1, };
+ static int jz4780_i2c4_f_funcs[] = { 1, 1, };
+ 
+ static const struct group_desc jz4780_groups[] = {
++	INGENIC_PIN_GROUP("spi0", jz4770_spi0),
+ 	INGENIC_PIN_GROUP("uart0-data", jz4770_uart0_data),
+ 	INGENIC_PIN_GROUP("uart0-hwflow", jz4770_uart0_hwflow),
+ 	INGENIC_PIN_GROUP("uart1-data", jz4770_uart1_data),
+@@ -702,6 +707,7 @@ static const char *jz4780_i2c4_groups[] = { "i2c4-data-e", "i2c4-data-f", };
+ static const char *jz4780_cim_groups[] = { "cim-data", };
+ 
+ static const struct function_desc jz4780_functions[] = {
++	{ "spi0", jz4770_spi0_groups, ARRAY_SIZE(jz4770_spi0_groups), },
+ 	{ "uart0", jz4770_uart0_groups, ARRAY_SIZE(jz4770_uart0_groups), },
+ 	{ "uart1", jz4770_uart1_groups, ARRAY_SIZE(jz4770_uart1_groups), },
+ 	{ "uart2", jz4780_uart2_groups, ARRAY_SIZE(jz4780_uart2_groups), },
+-- 
+2.20.1
+

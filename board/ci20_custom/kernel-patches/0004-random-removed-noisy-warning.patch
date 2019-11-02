@@ -1,0 +1,25 @@
+From 83f56dfca75031a6407bfe39f82e2b916c4b6772 Mon Sep 17 00:00:00 2001
+From: Pavel Nadein <pasha-net@narod.ru>
+Date: Tue, 26 Nov 2019 21:34:16 +0100
+Subject: [PATCH 1/1] [random] removed noisy warning
+
+Signed-off-by: Pavel Nadein <pasha-net@narod.ru>
+---
+ drivers/char/random.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/char/random.c b/drivers/char/random.c
+index 5d5ea4c..b75ef81 100644
+--- a/drivers/char/random.c
++++ b/drivers/char/random.c
+@@ -1032,7 +1032,6 @@ static void crng_reseed(struct crng_state *crng, struct entropy_store *r)
+ 		crng_init = 2;
+ 		process_random_ready_list();
+ 		wake_up_interruptible(&crng_init_wait);
+-		pr_notice("random: crng init done\n");
+ 		if (unseeded_warning.missed) {
+ 			pr_notice("random: %d get_random_xx warning(s) missed "
+ 				  "due to ratelimiting\n",
+-- 
+2.20.1
+

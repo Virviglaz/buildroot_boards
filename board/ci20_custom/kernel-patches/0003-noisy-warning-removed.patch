@@ -1,0 +1,33 @@
+From 7181fcfcc15f9a9f5aeda8778902fce702fef254 Mon Sep 17 00:00:00 2001
+From: Pavel Nadein <pasha-net@narod.ru>
+Date: Tue, 26 Nov 2019 21:09:56 +0100
+Subject: [PATCH 1/1] noisy warning removed
+
+Signed-off-by: Pavel Nadein <pasha-net@narod.ru>
+---
+ drivers/spi/spidev.c | 9 ---------
+ 1 file changed, 9 deletions(-)
+
+diff --git a/drivers/spi/spidev.c b/drivers/spi/spidev.c
+index 422bac8cc..2bfb277ff 100644
+--- a/drivers/spi/spidev.c
++++ b/drivers/spi/spidev.c
+@@ -713,15 +713,6 @@ static int spidev_probe(struct spi_device *spi)
+ 	int			status;
+ 	unsigned long		minor;
+ 
+-	/*
+-	 * spidev should never be referenced in DT without a specific
+-	 * compatible string, it is a Linux implementation thing
+-	 * rather than a description of the hardware.
+-	 */
+-	WARN(spi->dev.of_node &&
+-	     of_device_is_compatible(spi->dev.of_node, "spidev"),
+-	     "%pOF: buggy DT: spidev listed directly in DT\n", spi->dev.of_node);
+-
+ 	spidev_probe_acpi(spi);
+ 
+ 	/* Allocate driver data */
+-- 
+2.20.1
+
